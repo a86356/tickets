@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { connect } from 'react-redux'
+import Home from "./containers/home/Home";
+import Query from "./containers/query/Query";
+import { BrowserRouter as Router, Route,Switch} from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './common.css'
+
+const App = (props:any) =>{
+
+
+    return (
+        <Router >
+            <Switch>
+                <Route exact  path={'/'} component={Home} />
+                <Route exact  path={'/home'} component={Home} />
+                <Route exact  path={'/query'} component={Query} />
+            </Switch>
+        </Router>
+
+    )
 }
 
-export default App;
+export default connect(
+    (state)=>{
+        return state
+    },
+    (dispatch)=>{
+        return {dispatch}
+    }
+)(App);
