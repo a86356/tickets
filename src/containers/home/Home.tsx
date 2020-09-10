@@ -1,21 +1,21 @@
-import React, {FC, useCallback, useMemo} from "react";
+import React, {useCallback, useMemo} from "react";
 import {connect} from "react-redux";
-import {bindActionCreators } from 'redux'
+import {bindActionCreators} from 'redux'
 import Header from "../../components/header/Header";
 import DepartDate from "./DepartDate";
 import HighSpeed from "./HighSpeed";
 import Journey from "./Journey";
 import Submit from "./Submit";
 import './Home.css'
-
+import dayjs from "dayjs";
 import {
     exchangeFromTo,
-    showCitySelector,
-    hideCitySelector,
     fetchCityData,
-    showDateSelector,
+    hideCitySelector,
     hideDateSelector,
     setDepartDate,
+    showCitySelector,
+    showDateSelector,
     toggleHighSpeed
 } from "./store/action";
 
@@ -27,24 +27,22 @@ const Home=(props:any):JSX.Element=>{
     const {
         from,
         to,
-        dispatch,
         isCitySelectorVisible,
         isDateSelectorVisible,
         cityData,
         isLoadingCityData,
         departDate,
         highSpeed,
-        history
+        history,
+        dispatch
     } = props
-    console.log(props)
 
     const onBack=useCallback(()=>{
         console.log('onback render...')
     },[])
 
     const submit=()=>{
-
-        history.push("/query",{from:from,to:to,departDate:departDate,highSpeed:highSpeed})
+        history.push("/query",{from:from,to:to,departDate:dayjs(departDate).format('YYYY-MM-DD'),highSpeed:highSpeed})
     }
 
     const CitySelectorCbs=useMemo(()=>{
@@ -98,16 +96,15 @@ const Home=(props:any):JSX.Element=>{
             <div className={'header-wrapper'}>
                 <Header title={"火车票"} onBack={onBack}/>
             </div>
-            <div className={'form'} >
-                <Journey from={from} to={to}
-                         {...JourneyCbs} />
+            <form className={'form'} action={'/query'}>
+                <Journey from={from} to={to} {...JourneyCbs} />
                 <DepartDate
                     time={departDate}
                     {...DepartDateCbs}
                 />
-                <HighSpeed  highSpeed={highSpeed} {...HighSpeedCbs}/>
+                <HighSpeed highSpeed={highSpeed} {...HighSpeedCbs}/>
                 <Submit onSubmit={submit} />
-            </div>
+            </form>
             <CitySelector
                 show={isCitySelectorVisible}
                 cityData={cityData}
@@ -124,6 +121,8 @@ const Home=(props:any):JSX.Element=>{
 }
 
 export default connect(
-    (state)=>{return  state},
-    (dispatch)=>{ return  {dispatch}},
+    (state:any)=>{
+        return  state.homeReducer
+    },
+    (dispatch)=>{return {dispatch}  }
 )(Home)

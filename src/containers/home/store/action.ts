@@ -1,17 +1,20 @@
+import {
+    ACTION_SET_CITYDATA,
+    ACTION_SET_CURRENTSELECTEDLEFTCITY,
+    ACTION_SET_DEPARTDATE,
+    ACTION_SET_FROM,
+    ACTION_SET_HIGHSPEED,
+    ACTION_SET_ISCITYSELECTORVISIBLE,
+    ACTION_SET_ISDATESELECTORVISIBLE,
+    ACTION_SET_ISLOADINGCITYDATA,
+    ACTION_SET_TO
+} from "./actionTypes";
+
 export type Action = {
     type:string,
     payload:any
 }
 
-export const ACTION_SET_FROM = "SET_FROM"
-export const ACTION_SET_TO  ="SET_TO"
-export const ACTION_SET_ISCITYSELECTORVISIBLE = "SET_ISCITYSELECTORVISIBLE"
-export const ACTION_SET_CURRENTSELECTEDLEFTCITY = "SET_CURRENTSELECTEDLEFTCITY"
-export const ACTION_SET_CITYDATA  ="SET_CITYDATA"
-export const ACTION_SET_ISLOADINGCITYDATA='SET_ISLOADINGCITYDATA'
-export const ACTION_SET_ISDATESELECTORVISIBLE='SET_ISDATESELECTORVISIBLE'
-export const ACTION_SET_HIGHSPEED='SET_HIGHSPEED'
-export const ACTION_SET_DEPART_DATE = 'SET_DEPART_DATE';
 
 export const setFrom=(from:string):Action=>{
     return {
@@ -26,7 +29,6 @@ export const setTo=(to:string):Action=>{
         payload:to
     }
 }
-
 
 export const setIsLoadingCityData=(loading:boolean):Action=>{
     return {
@@ -44,7 +46,7 @@ export const setIsDataVisible=(visible:boolean):Action=>{
 
 export const toggleHighSpeed=()=>{
     return (dispatch:any,getState:any)=>{
-        const {highSpeed} =  getState();
+        const {highSpeed} =  getState().homeReducer;
         dispatch({
             type:ACTION_SET_HIGHSPEED,
             payload:!highSpeed
@@ -73,9 +75,9 @@ export const hideCitySelector= (currentSelectorLeftCity:any):Action=>{
     }
 }
 
-export const setDepartDate = (day:string)=>{
+export const setDepartDate = (day:any)=>{
     return {
-        type:ACTION_SET_DEPART_DATE,
+        type:ACTION_SET_DEPARTDATE,
         payload:day
     }
 }
@@ -108,7 +110,7 @@ export const hideDateSelector=():Action=>{
 
 export const exchangeFromTo=()=>{
     return (dispatch:any,getState:any)=>{
-        const {from,to} = getState();
+        const {from,to} = getState().homeReducer;
 
 
         dispatch(setFrom(to))

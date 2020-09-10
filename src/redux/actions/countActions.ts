@@ -7,3 +7,4 @@ export interface IDecrementCountAction {
 export type CountActions =
     | IIncrementCountAction
     | IDecrementCountAction
+

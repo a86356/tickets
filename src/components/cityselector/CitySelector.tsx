@@ -16,7 +16,6 @@ const CitySelector:FC<Props>=(props):JSX.Element=>{
         cityData,
         isLoading,
         hide,
-        fetchCityData
     } = props
     const [searchKey, setSearchKey] = useState('');
     const key = useMemo(() => searchKey.trim(), [searchKey]);

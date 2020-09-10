@@ -1,17 +1,50 @@
-import React, {FC} from "react";
+import React, {FC, useMemo} from "react";
+import classnames from 'classnames'
 import './index.css'
-
+import dayjs from "dayjs";
+import 'dayjs/locale/zh-cn';
 type Props={
-    onBack:()=>void,
-    title:string
+    prev:()=>void,
+    next:()=>void,
+    date:string,
+    isPrevDisabled:boolean,
+    isNextDisabled:boolean
 }
 
 const Nav:FC<Props> = (props:Props):JSX.Element=>{
-    const {title,onBack} = props
+    const {
+        prev,
+        next,
+        date,
+        isPrevDisabled,
+        isNextDisabled
+    } = props
+
+    const currentString = useMemo(() => {
+        const d = dayjs(date);
+
+        return d.format('M月D日 ') + d.locale('zh-cn').format('ddd');
+    }, [date]);
 
     return (
-        <div className={"header"}>
-          123
+        <div className="nav">
+            <span
+                onClick={prev}
+                className={classnames('nav-prev', {
+                    'nav-disabled': isPrevDisabled,
+                })}
+            >
+                前一天
+            </span>
+            <span className="nav-current">{ currentString }</span>
+            <span
+                onClick={next}
+                className={classnames('nav-next', {
+                    'nav-disabled': isNextDisabled,
+                })}
+            >
+                后一天
+            </span>
         </div>
     )
 }

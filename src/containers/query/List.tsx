@@ -8,8 +8,8 @@ type Props={
 const List:FC<Props> = (props:Props):JSX.Element=>{
 
     return (
-        <div className={"header"}>
-            list
+        <div >
+            list is empty~~
         </div>
     )
 }
